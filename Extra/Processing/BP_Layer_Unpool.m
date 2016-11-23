@@ -47,5 +47,5 @@ for m = 1 : size(currPatch,2)
 end
 
 rec_Level = col2imstep(rec_Level_list, size(input), psize, [1 1 1]);
-up_rec_Level = unpoolingLayerAvg_Fast(rec_Level, 2, [size(rec_Level,1) size(rec_Level,2)]);
+up_rec_Level = unpoolingLayerAvg_Fast(rec_Level, 2);
 up_rec_Level = up_rec_Level.*outSign;

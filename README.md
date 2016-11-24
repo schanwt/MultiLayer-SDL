@@ -1,4 +1,4 @@
-# MultiLayer-SDL
+# MultiLayer Dictionary Learning
 Code done during my phd thesis in GIPSA-lab on multilayer supervised dictionary learning for classification.
 
 The proposed method uses multiple layers of sparse coding to compute discriminant features for classification.

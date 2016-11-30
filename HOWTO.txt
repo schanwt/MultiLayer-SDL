@@ -1,0 +1,18 @@
+MultiLayer Dictionary Learning
+
+In this repository, I put a sample the code that was used during my PhD thesis in GIPSA-Lab.
+The "MNIST" and "Cifar10" folders contain the minimal codes required to run some learning/testing on these 2 datasets using MATLAB.
+
+The "Extra" folder contains the functions associated to the MATLAB scripts mentionned previously.
+
+The codes use the spams toolbox developed by J. Mairal (http://spams-devel.gforge.inria.fr/) for the sparse coding.
+LibLinear is also used in the test phase for comparison (http://www.csie.ntu.edu.tw/~cjlin/liblinear/)
+
+To run the codes, you also need to download the datasets (MNIST and/or Cifar10)
+MNIST: http://yann.lecun.com/exdb/mnist/
+Cifar10: https://www.cs.toronto.edu/~kriz/cifar.html
+
+For example, to run the codes on MNIST:
+1) Run "Learn_MNIST_3layers_New": Initialize a architecture which uses 3 dictionaries (with a reconstruction approach)
+2) Run "MNIST_3layers_New.m": Use supervised learning to fine-tune the dictionaries
+3) Run "FastTest_MNIST_3layers": To evaluate the performances

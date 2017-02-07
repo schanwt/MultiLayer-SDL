@@ -22,7 +22,6 @@ patch_list_tmp = double(train_images);
 patch_list_tmp = reshape(patch_list_tmp, [28 28 size(train_images,2)]);
 patch_list_tmp = imresize(patch_list_tmp, [32 32]);
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Load Dictionaries
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -34,19 +33,14 @@ patch_list_tmp = imresize(patch_list_tmp, [32 32]);
 load('MNIST_3layers_23-11_25-25-50_1000perClass.mat');
 
 %% Parameters
-
 sname = 'MNIST_3layers_23-11_25-25-50_1000perClass.mat';
 
-% Regularization parameter ||W||²
+% Regularization parameter ||W||Â²
 regulW = 0.0005;
 nsamples = size(train_images,2);
 
 if ~exist('batchsize', 'var')
     batchsize = 10;
-end
-
-if ~exist('lng_rate', 'var')
-    lng_rate = 0.3;
 end
 
 if ~exist('lng_rate_0', 'var')
@@ -73,7 +67,6 @@ if ~exist('param3', 'var')
     param3.mode = 2;
 end
 
-
 D_upg_gb_2 = zeros([size(D_2) batchsize]);
 D_upg_gb_1 = zeros([size(D_1) batchsize]);
 D_upg_gb_0 = zeros([size(D_0) batchsize]);
@@ -84,7 +77,7 @@ if ~exist('l_err', 'var')
     l_err= [];
 end
 
-for gb_iter = 1 : 10000
+for gb_iter = 1 : 30
     for inner_iter = 1 : pass_max
     disp(['iter - ' num2str(gb_iter)]);
     err = 0;
@@ -166,7 +159,6 @@ for gb_iter = 1 : 10000
             Beta_0(currCode_L0~=0, 1) = dDtD_inv*currCorr(currCode_L0~=0,m);
             
             tmp_upg_gb_0 = tmp_upg_gb_0 + (-D_0*Beta_0*(currCode_L0') + (currPatchNorm(:,m) - D_0*currCode_L0)*(Beta_0'));
-
         end
         
         D_upg_gb_2(:,:, bs) = tmp_upg_gb_2;
@@ -239,7 +231,5 @@ for gb_iter = 1 : 10000
     l_err = [l_err classif_res/(size(patch_list,3))];
     end
 end
-
 display('End train');
-
 %%

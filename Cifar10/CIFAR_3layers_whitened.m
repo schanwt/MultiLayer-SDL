@@ -14,7 +14,6 @@ addpath ./cifar-10-batches-mat/
 %% Train
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Load the images of the training set
-
 train_images = zeros(50000, 3072);
 train_labels = zeros(10000,1);
 load('data_batch_1.mat');
@@ -50,14 +49,12 @@ end
 % Load a set of dictionaries : they can be learned with
 % "Learn_3layers_whitened_v2" or we can continue the learning of an old set 
 % of dictionaries
-
 load('CIFAR_3layers_18-07_50-50-100_whitened_ppatch_v2.mat');
 
 %% Parameters
-
 sname = 'CIFAR_3layers_23-11_25-25-50_whitened_ppatch_v2.mat';
 
-% Regularization ||W||²
+% Regularization ||W||Â²
 regulW = 0.0001;
 
 if ~exist('batchsize', 'var')
@@ -92,7 +89,6 @@ if ~exist('param3', 'var')
     param3.mode = 2;
 end
 
-
 D_upg_gb_2 = zeros([size(D_2) batchsize]);
 D_upg_gb_1 = zeros([size(D_1) batchsize]);
 D_upg_gb_0 = zeros([size(D_0) batchsize]);
@@ -103,7 +99,7 @@ if ~exist('l_err', 'var')
     l_err= [];
 end
 
-for gb_iter = 1 : 10000
+for gb_iter = 1 : 30
     for inner_iter = 1 : pass_max
     disp(['iter - ' num2str(gb_iter)]);
     err = 0;
@@ -198,8 +194,7 @@ for gb_iter = 1 : 10000
             Beta_0(currCode_L0~=0, 1) = dDtD_inv*currCorr(currCode_L0~=0,m);         
             tmp_upg_gb_0 = tmp_upg_gb_0 + (-D_0*Beta_0*(currCode_L0') + (currPatchNorm(:,m) - D_0*currCode_L0)*(Beta_0'));
         end
-        
-        
+         
         D_upg_gb_2(:,:, bs) = tmp_upg_gb_2;
         D_upg_gb_1(:,:, bs) = tmp_upg_gb_1;
         D_upg_gb_0(:,:, bs) = tmp_upg_gb_0;
@@ -264,8 +259,6 @@ for gb_iter = 1 : 10000
         disp(err2/(size(patch_list,4)));
     end
    
-
-
     if (mod(inner_iter, 5) == 0)
         save(sname, 'D_0', 'D_1', 'D_2', 'W', 'M', 'P', 'l_err', 'param', 'param2', 'param3', 'batchsize', 'nsamples', 'lng_rate', 'lng_rate_0');
     end
@@ -274,7 +267,5 @@ for gb_iter = 1 : 10000
     l_err = [l_err classif_res/(size(patch_list,4))];
     end
 end
-
 display('End train');
-
 %%

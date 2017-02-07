@@ -19,8 +19,6 @@ addpath ./Dataset/
 
 load('MNIST_100_perClass_1.mat', 'train_images', 'train_labels');
 
-%%
-
 test_images = loadMNISTImages('t10k-images.idx3-ubyte');
 test_labels = loadMNISTLabels('t10k-labels.idx1-ubyte');
 
@@ -33,10 +31,8 @@ load('MNIST_3layers_23-11_25-25-50_1000perClass.mat');
 rfSize = 5;
 rfSize2 = 5;
 rfSize3 = 5;
-%%
 
 batchsize = 100;
-
 nsamples = size(test_images,2);
 
 patch_list_tmp = double(test_images);
@@ -62,8 +58,7 @@ for gb_iter = 1 : 1
         
         patch_list = patch_list_tmp(:,:,idx);
         currLabel = test_labels(idx);
-        
-        
+            
         %%% Error checking
         parfor bs = 1 : size(patch_list,3)
             
@@ -89,12 +84,10 @@ for gb_iter = 1 : 1
             if (cL(pr, 1)) == 1
                 classif_res2 = classif_res2 +1;
                 classif_tmp = classif_tmp + 1;
-            end
-            
+            end 
         end
         disp(classif_tmp/size(patch_list,3));
-        full_te(:, idx) = small_te;
-        
+        full_te(:, idx) = small_te;       
     end
     disp('Results : ');
     disp(classif_res2/(nsamples));
@@ -122,7 +115,6 @@ clear param;
 param.lambda=0.1; % 0.05
 param.lambda2=0.01;
 param.mode = 2;
-%param.pos = true;
 
 pass_max = floor(nsamples/batchsize);
 it_counter = 1;
@@ -135,8 +127,7 @@ for gb_iter = 1 : 1
         
         patch_list = patch_list_tmp(:,:,idx);
         currLabel = test_labels(idx);
-        
-        
+          
         %%% Error checking
         parfor bs = 1 : size(patch_list,3)
             id = (inner_iter-1)*batchsize+bs;
@@ -147,7 +138,6 @@ for gb_iter = 1 : 1
             Level_2 = computeMultiScaleNextLayerPos(pooling_1.Pooled, [5 5 size(D_0,2)], [1 1 1], D_1, param);
             pooling_2 = computePoolingLayerAvg_Fast_v2(max(Level_2.Layer, 0), 2);
             Level_3 = computeMultiScaleNextLayerPos(pooling_2.Pooled, [5 5 size(D_1,2)], [1 1 1], D_2, param);
-
 
             %feats = [feats; reshape(max(Level_5.Layer,0), [size(D_4,2) 1])];
             feats = [reshape(max(Level_3.Layer,0), [size(D_2,2) 1])];
@@ -165,11 +155,9 @@ for gb_iter = 1 : 1
             if (cL(pr, 1)) == 1
                 classif_res2 = classif_res2 +1;
                 classif_tmp = classif_tmp + 1;
-            end
-            
+            end    
         end
-        full_tr(:, idx) = small_tr;
-        
+        full_tr(:, idx) = small_tr; 
     end
     disp('Results : ');
     disp(classif_res2/(nsamples));
